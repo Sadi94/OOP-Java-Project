@@ -1,0 +1,628 @@
+package Classes;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import Interface.CourseTransactions;
+
+public class Course implements CourseTransactions {
+	int courseNumber;
+	int credit;
+	int qnt;
+	String element;
+	List<String> CAddingList = new ArrayList<String>();
+	Scanner input = new Scanner(System.in);
+	
+	public void setCourseNumber(int courseNumber) {
+		this.courseNumber=courseNumber;
+	}
+
+	public void setCredit(int credit) {
+		this.credit=credit;
+	}
+
+	public int getCourseNumber() {
+		return courseNumber;
+	}
+
+	public int getCredit() {
+		return credit;
+	}
+
+	public void showInfo() {
+		System.out.println("Course Number: " + getCourseNumber());
+		System.out.println("Credit: " + getCredit());
+	}
+
+	
+	public void adding(int quantity) {
+
+		    for (int i = 0; i < quantity; i++) {
+		        System.out.print("Insert Course: ");
+		        element = input.next();
+		        CAddingList.add(element);
+		    }
+		    System.out.println();
+		    System.out.println("Course added successfully\n\n");
+		    for (int i = 0; i < CAddingList.size(); i++) {
+		        System.out.println(CAddingList.get(i));
+		    }
+		
+	}
+	public void dropping(int quantity) {
+		int i = 0;
+		String CName;
+		
+	    for(int j=0;j<quantity;j++)
+	    {
+	    while(i<CAddingList.size()) {
+	    	System.out.print("Insert the name of the course you want to drop: ");
+		    CName = input.next();
+	        System.out.println(CAddingList.get(i));
+	        if((CName.equals(CAddingList.get(i))))
+	        {
+	            System.out.println("Course dropped.");
+	            CAddingList.remove(i);
+	            
+	        }
+	        else
+	        {
+	            i++;
+	        }
+	    }	
+	    	for (int k = 0; k < CAddingList.size(); i++) {
+		        System.out.println(CAddingList.get(i));
+		    }
+	    }
+	}
+
+}
+
+///////////////////////////////////////////////////////
+package Classes;//this package includes all the packages
+
+public class Faculty {
+    protected String name;
+    protected String fid;
+    protected double salary;
+    
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setfId(int fId){
+        this.fid = Integer.toString(fId);
+    }
+    public void setSalary(double Salary){
+        this.salary = Salary;
+    }
+    
+    public String getName(){
+        return name;
+    }
+    public int getFId(){
+        int id = Integer.parseInt(fid);
+        return id;
+    }
+    public double getSalary(){
+        return salary;
+    }
+    
+}
+
+///////////////////////////////////////////
+package Classes;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileReadWriteDemo
+	{
+		private File file;				//to create a File
+		private FileWriter writer;		//to write in a file
+		private FileReader reader;		//to read from a file
+		private BufferedReader bfr;		//to read file content
+		
+		
+		public void writeInFile(String s)
+		{
+			/*
+				creating a file and writing in it generates compile time exceptions (Checked Exceptions).
+				So, we need to write the whole thing in try-catch.
+			*/
+			try
+			{
+				file = new File("History.txt");			//Declaring a file named named History.txt for creating.
+				file.createNewFile();					//If the file does not exists, creates and opens the file. else, just opens the file
+				writer = new FileWriter(file, true);	//creating the writer object to write in the file.
+				writer.write(s+"\r"+"\n");				//writing a string s in the file. the "\r" and "\n" has been concat to go to a newline.
+				writer.flush();							//After writing, we need to flush to indicate that we have completed writing.
+				writer.close();							//After flushing, we need to close the file to save our writing.
+			}
+			catch(IOException ioe)
+			{
+				ioe.printStackTrace();
+			}
+		}
+		
+		public void readFromFile()
+		{
+			/*
+				reading from a file genarates compile time exceptions (Checked Exceptions).
+				So, we need to write the whole thing in try-catch.
+			*/
+			
+			try
+			{
+				reader = new FileReader(file);			//creating the reader object to read from a file.
+				bfr = new BufferedReader(reader);		//creating the BufferedReader object using the reader object to read the file content.
+				String text="", temp;					//declaring two string variables to read the file content and storing them.
+				
+				while((temp=bfr.readLine())!=null)		//reading one line from the file, storing it in the variable temp and checking whether it is null or not. It will be null at the end of reading from the file.
+				{
+					text=text+temp+"\n"+"\r";			//storing the temp string in text by concating it with text and "n" and "\r" is used to go to a newline.
+				}
+				
+				System.out.print(text);   				//printing the whole string in console.
+				reader.close();							//closing the file.
+			}
+			catch(IOException ioe)
+			{
+				ioe.printStackTrace();
+			}
+		}
+		
+}
+//////////////////////////////////////////////
+package Classes;//This package includes all the classes
+
+import java.util.ArrayList;
+import java.util.List;
+
+import Interface.CourseOperations;
+public class Student implements CourseOperations {
+	protected String name;
+	protected int sid;
+	Course courses;
+	
+	public void setName(String name) {
+		this.name=name;
+	}
+	public void setSid(int sid) {
+		this.sid=sid;;
+	}
+	public String getName() {
+		return name;
+	}
+	public int getSid( ) {
+		return sid;
+	}
+
+	List<String> CList = new ArrayList<String>();
+	
+	public void setCourse(Course c) {
+
+		c.setCourseNumber(c.courseNumber);
+		c.setCredit(c.credit);
+	}
+
+	public void insertCourse(Course c) {
+
+		setCourse(c);
+
+		CList.add(Integer.toString(c.getCredit()));
+		CList.add(Integer.toString(c.getCourseNumber()));
+		
+
+		System.out.println("Course added successfully.");
+	}
+
+	public void removeCourse(Course c) {
+
+		
+		int i = 1;
+
+	    while(i<CList.size()) {
+	        System.out.println(CList.get(i));
+	        if((Integer.toString(c.courseNumber)).equals(CList.get(i)))
+	        {
+	            System.out.println("Course removed.");
+	            CList.remove(i-1);
+	            CList.remove(i-1);
+	        }
+	        else
+	        {
+	            i+=2;
+	        }
+	    }	
+	}
+
+	public Course getCourse(int CourseNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void showAllCourse() {
+		System.out.println("\n Courses are:" + CList);
+
+	}
+}
+//////////////////////////////////////////
+package Classes;
+import java.util.ArrayList;
+
+import java.util.List;
+import Interface.*;
+
+public class University implements FacultyOperations,StudentOperations {
+	Faculty faculties;//reference object of Faculty class.
+	Student student;
+	List<String> Flist = new ArrayList<String>(100);//Faculty array list.
+	List<String> SList=new ArrayList<String>(100);
+
+	public void getFaculty(String fId) {
+
+	}
+
+	public void showAllFaculty() {
+		System.out.println("\n Faculties are:" + Flist);
+	}
+
+	public void setFaculty(Faculty e) {
+
+		e.setName(e.name);
+		e.setfId(Integer.parseInt(e.fid));
+		e.setSalary(e.salary);
+	}
+
+	public void insertFaculty(Faculty e) {
+
+		setFaculty(e);
+
+		Flist.add(e.getName());
+		Flist.add(Integer.toString(e.getFId()));
+		Flist.add(Double.toString(e.getSalary()));
+
+		System.out.println("Faculty added sucessfully...");
+	}
+
+	public void removeFaculty(Faculty e) {
+
+		int i = 1;
+
+	    while(i<Flist.size()) {
+	        System.out.println(Flist.get(i));
+	        if(e.fid.equals(Flist.get(i)))
+	        {
+	            System.out.println("Match found.");
+	            Flist.remove(i-1);
+	            Flist.remove(i-1);
+	            Flist.remove(i-1);
+	        }
+	        else
+	        {
+	            i+=3;
+	        }
+	    }
+
+	}
+
+	
+	public void setStudent(Student s) {
+		s.setName(s.name);
+		s.setSid(s.sid);
+	}
+
+	public void getStudent(int sid) {
+		
+	}
+
+	public void insertStudent(Student s) {
+		setStudent(s);
+
+		SList.add(s.getName());
+		SList.add(Integer.toString(s.getSid()));
+		
+		System.out.println("Student added successfully.");
+		
+	}
+	public void removeStudent(Student s) {
+		int i = 1;
+
+	    while(i<SList.size()) {
+	        System.out.println(SList.get(i));
+	        if((Integer.toString(s.sid)).equals(SList.get(i)))
+	        {
+	            System.out.println("Student removed.");
+	            SList.remove(i-1);
+	            SList.remove(i-1);
+	        }
+	        else
+	        {
+	            i+=2;
+	        }
+	    }
+		
+	}
+
+	public void showAllStudents() {
+		System.out.println("Student List: "+SList);
+		
+	}
+}
+/////////////////////////////////////////////////////
+package Interface;//this package includes all the interfaces
+
+import Classes.Course;//importing class from classes package
+
+public interface CourseOperations 
+{
+	public abstract void insertCourse(Course c);
+	public abstract void removeCourse(Course c);
+	public abstract Course getCourse(int CourseNumber);
+	public abstract void showAllCourse();
+
+}
+//////////////////////////////////////////////////////////////////
+package Interface;
+
+public interface CourseTransactions {
+	public abstract void adding(int quantity);
+	public abstract void dropping(int quantity);
+}
+/////////////////////////////////////////////////////////////
+package Interface;
+
+import Classes.Faculty;
+
+public interface FacultyOperations {
+	public abstract void setFaculty(Faculty e);
+	public abstract void getFaculty(String fid);
+	public abstract void insertFaculty(Faculty e);
+	public abstract void removeFaculty(Faculty e);
+	public abstract void showAllFaculty();
+
+}
+//////////////////////////////////////////////////////////////
+package Interface;
+
+import Classes.Student;
+
+public interface StudentOperations {
+	public abstract void setStudent(Student s);
+	public abstract void getStudent(int sid);
+	public abstract void insertStudent(Student s);
+	public abstract void removeStudent(Student s);
+	public abstract void showAllStudents();
+}
+///////////////////////////////////////////////////////////
+import Classes.*;
+
+import java.util.Scanner;
+
+class Start {
+    public static void main(String []args){
+            int choice = 0,subChoice = 0;
+
+            
+			Scanner in = new Scanner( System.in );
+            University u = new University();
+            while(true){
+            	try {
+                System.out.println("1. Faculty Management");
+                System.out.println("2. Student Management");
+                System.out.println("3. Course Transactions");
+                System.out.println("4. Exit");
+                System.out.println("Enter your choice:");
+                choice = in.nextInt();
+                in.nextLine();
+            	}
+                catch(Exception e) {
+            		System.out.println("Error occured.Please try again.");
+            		break;
+            	}
+                switch(choice) {
+                case 1 :{
+                    while(true){
+                    	try {
+                        System.out.println("\nOptions for Faculty Management:");
+                        System.out.println("\n1.Insert New Faculty");
+                        System.out.println("\n2.Remove existing Faculty");
+                        System.out.println("\n3.Show all Faculty");
+                        System.out.println("\n4.Going back");
+                        System.out.println("\nEnter your option:");
+                        subChoice = in.nextInt();
+                        in.nextLine();
+                    	}catch(Exception e) {
+                    		System.out.println("Error occured.Please try again.");
+                    		break;
+                    	}
+                        if(subChoice==1){
+                        	try {
+                            Faculty e = new Faculty();
+                            String newFacultyName;
+                            String newFacultyId;
+                            double newSalary;
+
+                            System.out.println("\nEnter the name of the faculty:");
+                            newFacultyName = in.nextLine();
+                            System.out.println("\nEnter the Id of the faculty:");
+                            newFacultyId = in.nextLine();
+                            System.out.println("\nEnter the salary of the faculty:");
+                            newSalary = in.nextDouble();
+                            
+                            e.setName(newFacultyName);
+                            e.setfId(Integer.parseInt(newFacultyId));
+                            in.nextLine();
+                            e.setSalary(newSalary);
+                            
+                            u.insertFaculty(e);
+                        	}catch(Exception e) {
+                        		System.out.println("Error occured.Please try again.");
+                        		break;
+                        	}
+                        }
+                        else if(subChoice==2){
+                        	try {
+                            Faculty e = new Faculty();
+                            String searchFId;
+                            System.out.println("\nEnter the FId of your faculty you want to remove:");
+                            searchFId = in.nextLine();
+                            int id = Integer.parseInt(searchFId);
+                            e.setfId(id);
+                            u.removeFaculty(e);
+                        	}catch(Exception e) {
+                        		System.out.println("Error occured.Please try again.");
+                        		break;
+                        	}
+                        }
+                        else if(subChoice==3){
+                            u.showAllFaculty();
+                        }
+                        else if(subChoice==4){
+                            break;
+                        }
+                        
+                }
+                    break;
+                }
+                case 2:{
+                    while(true){
+                    	try {
+                        System.out.println("\nOptions for Student Management:");
+                        System.out.println("\n1.Insert New Student:");
+                        System.out.println("\n2.Remove Existing Student:");
+                        System.out.println("\n3.Show All Student:");
+                        System.out.println("\n4.Going Back.");
+                        System.out.println("\nEnter your option:");
+                        subChoice = in.nextInt();
+                        in.nextLine();
+                    	}catch(Exception e) {
+                    		System.out.println("Error occured.Please try again.");
+                    		break;
+                    	}
+                        if(subChoice==1){
+                        	try {
+                            Student s = new Student();
+                            String newStudentName;
+                            int newStudentId;
+                            
+
+                            System.out.println("\nEnter the name of the student:");
+                            newStudentName = in.nextLine();
+                            System.out.println("\nEnter the Id of the student:");
+                            newStudentId = in.nextInt();
+                            in.nextLine();
+                            
+                            s.setName(newStudentName);
+                            
+                            s.setSid(newStudentId);
+                            
+                            
+                            u.insertStudent(s);
+                        	}catch(Exception e) {
+                        		System.out.println("Error occured.Please try again.");
+                        		break;
+                        	}
+                        }
+                        else if(subChoice==2){
+                        	try {
+                            Student s = new Student();
+                            int searchSId;
+                            System.out.println("\nEnter the SId of the student you want to remove:");
+                            searchSId = in.nextInt();
+                            s.setSid(searchSId);
+                            u.removeStudent(s);
+                        	}catch(Exception e) {
+                        		break;
+                        	}
+                        }
+                        else if(subChoice==3){
+                            u.showAllStudents();
+                        }
+                        else if(subChoice==4){
+                            break;
+                        }
+                        
+                }
+                    break;
+                }
+                case 3:{
+                    while(true){
+                    	try {
+                        System.out.println("\nOptions for course transactions:");
+                        System.out.println("\n1.Adding Course");
+                        System.out.println("\n2.Withdraw course");
+                        System.out.println("\n3.Going Back");
+                        System.out.println("\nEnter your option:");
+                        subChoice = in.nextInt();
+                        in.nextLine();
+                    	}catch(Exception e) {
+                    		System.out.println("Error occured.Please try again.");
+                    		break;
+                    	}
+                        if(subChoice==1){
+                        	try {
+                            Course c = new Course();
+                            FileReadWriteDemo frd=new FileReadWriteDemo();
+                            //int NewCourseNumber;
+                            //int NewCredit;
+                            int qnt;
+                            
+                            System.out.println("\nEnter the total number of course you want to add:");
+                            qnt = in.nextInt();
+                            frd.writeInFile(Integer.toString(qnt));
+
+                            in.nextLine();
+                            c.adding(qnt);
+                            
+                        }catch(Exception e) {
+                    		System.out.println("Error occured.Please try again.");
+                    		break;
+                    	}
+                            
+                        }
+                        else if(subChoice==2){
+                        	try {
+                        	Course c = new Course();
+                            FileReadWriteDemo frd=new FileReadWriteDemo();
+                            
+                            int searchCN;
+                            System.out.println("\nHow many courses do you want to remove:");
+                            searchCN = in.nextInt();
+                            frd.writeInFile(Integer.toString(searchCN));
+                            c.dropping(searchCN);
+                           
+                        	}catch(Exception e) {
+                        		System.out.println("Error occured.Please try again.");
+                        		break;
+                        	}
+                        }
+                        else if(subChoice==3){
+                            break;
+                        }
+                        
+                }
+                    break;
+                }
+                case 4:
+                	System.exit(0);
+                	break;
+                default:
+                	System.out.println("Invalid Option.");
+                	break;
+                }
+                	
+            
+                }
+    
+            
+            
+        
+        
+    }
+}
+
